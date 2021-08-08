@@ -8,15 +8,12 @@
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node build/index.js",
     "lint": "eslint . --ext .ts",
-    "lint-and-fix": "eslint . --ext .ts --fix",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "lint:staged": "lint-staged",
+    "prettier:format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier:watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
+    "prepare": "husky install && cp -a .husky/. .git/hooks/",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier-format && npm run lint"
-    }
   },
   "repository": {
     "type": "git",
@@ -37,12 +34,20 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^4.3.8",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
     "nodemon": "^2.0.12",
     "onchange": "^7.1.0",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run prettier:format",
+      "npm run lint",
+      "git add ."
+    ]
   }
 }
